@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { Pokemon } from './models';
+import { Pokemon, PokemonResponse } from './models';
 
 import { PokemonService } from './pokemon.service';
 
@@ -23,8 +22,15 @@ describe('PokemonService', () => {
       },
     ];
 
+    const expectedPokemonResponse: PokemonResponse = {
+      count: 1,
+      next: null,
+      previous: null,
+      results: expectedPokemon,
+    };
+
     // ACT
-    httpCLientSpy.get.and.returnValue(of(expectedPokemon));
+    httpCLientSpy.get.and.returnValue(of(expectedPokemonResponse));
 
     // ASSERT
     pokemonService.getPokemonList().subscribe({
