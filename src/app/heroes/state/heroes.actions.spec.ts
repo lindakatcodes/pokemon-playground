@@ -1,7 +1,7 @@
 import * as fromHeroes from './heroes.actions';
 
-describe('loadHeroess', () => {
+describe('loadHeroes', () => {
   it('should return an action', () => {
-    expect(fromHeroes.loadHeroess().type).toBe('[Heroes] Load Heroess');
+    expect(fromHeroes.loadHeroes().type).toBe('[Heroes] Load Heroes');
   });
 });
