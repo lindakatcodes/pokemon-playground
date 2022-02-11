@@ -34,10 +34,10 @@ describe('PokemonService', () => {
 
     // ASSERT
     pokemonService.getPokemonList().subscribe({
-      next: (pokemon) => {
-        expect(pokemon)
-          .withContext('expected pokemon')
-          .toEqual(expectedPokemon);
+      next: (pokemonRes) => {
+        expect(pokemonRes)
+          .withContext('expected pokemon response')
+          .toEqual(expectedPokemonResponse);
         done();
       },
       error: done.fail,
