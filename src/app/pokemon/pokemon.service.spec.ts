@@ -4,7 +4,7 @@ import { Pokemon, PokemonResponse } from './models';
 
 import { PokemonService } from './pokemon.service';
 
-describe('PokemonService', () => {
+fdescribe('PokemonService', () => {
   let httpCLientSpy: jasmine.SpyObj<HttpClient>;
   let pokemonService: PokemonService;
 
