@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./heroes/heroes.module').then((m) => m.HeroesModule),
   },
+  {
+    path: 'pokemon',
+    loadChildren: () =>
+      import('./pokemon/pokemon.module').then((m) => m.PokemonModule),
+  },
 ];
 
 @NgModule({

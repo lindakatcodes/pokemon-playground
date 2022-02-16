@@ -4,6 +4,7 @@ import { catchError, map, concatMap } from 'rxjs/operators';
 import { Observable, EMPTY, of } from 'rxjs';
 
 import * as PokemonActions from './pokemon.actions';
+import { PokemonService } from '../pokemon.service';
 
 @Injectable()
 export class PokemonEffects {
@@ -11,10 +12,9 @@ export class PokemonEffects {
     return this.actions$.pipe(
       ofType(PokemonActions.loadPokemon),
       concatMap(() =>
-        /** An EMPTY observable only emits completion. Replace with your own observable API request */
-        EMPTY.pipe(
-          map((data) =>
-            PokemonActions.loadPokemonSuccess({ pokemonList: data })
+        this.pokemonService.getPokemonList().pipe(
+          map(({ results: pokemonList }) =>
+            PokemonActions.loadPokemonSuccess({ pokemonList })
           ),
           catchError((error) =>
             of(PokemonActions.loadPokemonFailure({ error }))
@@ -24,5 +24,12 @@ export class PokemonEffects {
     );
   });
 
-  constructor(private actions$: Actions) {}
+  // TODO: add effect for handling general purpose error.
+  // This could be created at the pokemon level for now because we mostly have this one feature
+  // eventually we'll want more client-side error-handling beyond just API things
+
+  constructor(
+    private actions$: Actions,
+    private pokemonService: PokemonService
+  ) {}
 }
