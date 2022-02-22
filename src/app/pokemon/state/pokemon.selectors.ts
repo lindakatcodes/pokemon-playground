@@ -7,8 +7,10 @@ export interface PokemonViewModel {
   loading: boolean;
 }
 
-export const selectPokemonViewModel = createSelector(
+export const selectPokemonListViewModel = createSelector(
   fromPokemon.selectPokemonList,
   fromPokemon.selectLoading,
   (pokemonList, loading) => ({ pokemonList, loading })
 );
+
+// create a selector that return whatever slice of the individual pokemon's DTO
