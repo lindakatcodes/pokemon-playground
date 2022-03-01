@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PokemonDetails, PokemonResponse } from './models';
+import { PokemonDetailsResponse, PokemonResponse } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,9 @@ export class PokemonService {
     );
   }
 
-  getPokemonByName(name: string): Observable<PokemonDetails> {
-    return this.http.get<PokemonDetails>(`${environment.api}/pokemon/${name}`);
+  getPokemonDetails(name: string): Observable<PokemonDetailsResponse> {
+    return this.http.get<PokemonDetailsResponse>(
+      `${environment.api}/pokemon/${name}`
+    );
   }
 }

@@ -7,7 +7,7 @@ export interface PokemonResponse {
   results: Pokemon[];
 }
 
-export interface PokemonDetails {
+export interface PokemonDetailsResponse {
   abilities: [];
   base_experience: number;
   forms: [];
