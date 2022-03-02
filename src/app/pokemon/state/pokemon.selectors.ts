@@ -1,16 +1,20 @@
 import { createSelector } from '@ngrx/store';
-import { Pokemon } from '../models';
+import { Pokemon, PokemonDetails } from '../models';
 import * as fromPokemon from './pokemon.reducer';
 
 export interface PokemonViewModel {
-  pokemonList: Pokemon[];
   loading: boolean;
+  pokemonList: Pokemon[];
+  pokemonDetailsList: PokemonDetails[];
 }
 
 export const selectPokemonListViewModel = createSelector(
-  fromPokemon.selectPokemonList,
   fromPokemon.selectLoading,
-  (pokemonList, loading) => ({ pokemonList, loading })
+  fromPokemon.selectPokemonList,
+  fromPokemon.selectPokemonDetailsList,
+  (loading, pokemonList, pokemonDetailsList) => ({
+    loading,
+    pokemonList,
+    pokemonDetailsList,
+  })
 );
-
-// create a selector that return whatever slice of the individual pokemon's DTO

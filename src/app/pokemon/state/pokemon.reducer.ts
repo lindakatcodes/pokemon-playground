@@ -1,15 +1,17 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { Pokemon } from '../models';
+import { Pokemon, PokemonDetails } from '../models';
 import * as PokemonActions from './pokemon.actions';
 
 export interface PokemonState {
-  pokemonList: Pokemon[];
   loading: boolean;
+  pokemonList: Pokemon[];
+  pokemonDetailsList: PokemonDetails[];
 }
 
 export const initialState: PokemonState = {
-  pokemonList: [],
   loading: false,
+  pokemonList: [],
+  pokemonDetailsList: [],
 };
 
 const feature = createFeature({
@@ -24,9 +26,21 @@ const feature = createFeature({
     on(PokemonActions.loadPokemonSuccess, (state, { pokemonList }) => ({
       ...state,
       pokemonList,
-      loading: false,
+      loading: true,
     })),
     on(PokemonActions.loadPokemonFailure, (state) => ({
+      ...state,
+      loading: false,
+    })),
+    on(
+      PokemonActions.getPokemonDetailsSuccess,
+      (state, { pokemonDetails }) => ({
+        ...state,
+        loading: false,
+        pokemonDetailsList: pokemonDetails,
+      })
+    ),
+    on(PokemonActions.getPokemonDetailsFailure, (state) => ({
       ...state,
       loading: false,
     }))
@@ -38,5 +52,6 @@ export const {
   reducer,
   selectLoading,
   selectPokemonList,
+  selectPokemonDetailsList,
   selectPokemonState,
 } = feature;
