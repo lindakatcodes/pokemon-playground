@@ -5,12 +5,12 @@ import { Pokemon, PokemonResponse } from './models';
 import { PokemonService } from './pokemon.service';
 
 describe('PokemonService', () => {
-  let httpCLientSpy: jasmine.SpyObj<HttpClient>;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let pokemonService: PokemonService;
 
   beforeEach(() => {
-    httpCLientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    pokemonService = new PokemonService(httpCLientSpy);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    pokemonService = new PokemonService(httpClientSpy);
   });
 
   it('should get all pokemon', (done: DoneFn) => {
@@ -30,19 +30,19 @@ describe('PokemonService', () => {
     };
 
     // ACT
-    httpCLientSpy.get.and.returnValue(of(expectedPokemonResponse));
+    httpClientSpy.get.and.returnValue(of(expectedPokemonResponse));
 
     // ASSERT
     pokemonService.getPokemonList().subscribe({
-      next: (pokemon) => {
-        expect(pokemon)
-          .withContext('expected pokemon')
-          .toEqual(expectedPokemon);
+      next: (pokemonRes) => {
+        expect(pokemonRes)
+          .withContext('expected pokemon response')
+          .toEqual(expectedPokemonResponse);
         done();
       },
       error: done.fail,
     });
 
-    expect(httpCLientSpy.get.calls.count()).withContext('one call').toBe(1);
+    expect(httpClientSpy.get.calls.count()).withContext('one call').toBe(1);
   });
 });
