@@ -7,4 +7,5 @@ export interface PokemonDetails {
   name: string;
   id: number;
   image: string;
+  types: string[];
 }

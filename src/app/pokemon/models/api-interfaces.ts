@@ -35,21 +35,14 @@ export interface PokemonDetailsResponse {
     versions: {};
   };
   stats: [];
-  types: [
-    {
-      slot: number;
-      type: {
-        name: string;
-        url: string;
-      };
-    },
-    {
-      slot: number;
-      type: {
-        name: string;
-        url: string;
-      };
-    }
-  ];
+  types: PokemonTypeBasicResponse[];
   weight: number;
+}
+
+export interface PokemonTypeBasicResponse {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
 }
