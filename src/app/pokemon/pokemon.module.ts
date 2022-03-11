@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PokemonComponent } from './pokemon.component';
-import { StoreModule } from '@ngrx/store';
-import * as fromPokemon from './state/pokemon.reducer';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { PokemonEffects } from './state/pokemon.effects';
+import { StoreModule } from '@ngrx/store';
+import { ListCardComponent } from './components/list-card/list-card.component';
 import { PokemonRoutingModule } from './pokemon-routing.module';
+import { PokemonComponent } from './pokemon.component';
+import { PokemonEffects } from './state/pokemon.effects';
+import * as fromPokemon from './state/pokemon.reducer';
 
 @NgModule({
-  declarations: [PokemonComponent],
+  declarations: [PokemonComponent, ListCardComponent],
   imports: [
     CommonModule,
     PokemonRoutingModule,

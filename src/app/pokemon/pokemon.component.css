@@ -1,25 +1,7 @@
 main {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
   gap: 1rem 0.5rem;
   justify-items: center;
-  margin: 0 2%;
-}
-
-.poke-card {
-  border: 2px solid black;
-  border-radius: 10px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-h3 {
-  font-size: 1.4rem;
-  text-transform: capitalize;
-}
-
-img {
-  width: 75%;
+  margin: 0 3%;
 }
