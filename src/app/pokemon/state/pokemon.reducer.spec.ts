@@ -35,10 +35,12 @@ describe('Pokemon Reducer', () => {
     const newState: PokemonState = {
       loading: false,
       pokemonList: [{ name: 'bulbasaur', url: '' }],
-      pokemonDetailsList: [{ name: 'bulbasaur', id: 1, image: '' }],
+      pokemonDetailsList: [
+        { name: 'bulbasaur', id: 1, image: '', types: [''] },
+      ],
     };
     const action = getPokemonDetailsSuccess({
-      pokemonDetails: [{ name: 'bulbasaur', id: 1, image: '' }],
+      pokemonDetails: [{ name: 'bulbasaur', id: 1, image: '', types: [''] }],
     });
     const state = reducer(currentState, action);
 
