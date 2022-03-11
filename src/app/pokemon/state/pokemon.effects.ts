@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, mergeMap, tap } from 'rxjs/operators';
-import { Observable, EMPTY, of, forkJoin } from 'rxjs';
-
-import * as PokemonActions from './pokemon.actions';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
+import {
+  Pokemon,
+  PokemonDetails,
+  PokemonDetailsResponse,
+  PokemonTypeBasicResponse,
+} from '../models';
 import { PokemonService } from '../pokemon.service';
-import { Pokemon, PokemonDetails, PokemonDetailsResponse } from '../models';
+import * as PokemonActions from './pokemon.actions';
 
 @Injectable()
 export class PokemonEffects {
@@ -87,12 +91,24 @@ export class PokemonEffects {
   ): Observable<PokemonDetails>[] {
     return pokemonList.map((pokemon: Pokemon) => {
       return this.pokemonService.getPokemonDetails(pokemon.name).pipe(
-        map((pokeData: PokemonDetailsResponse) => ({
-          name: pokeData.name,
-          id: pokeData.id,
-          image: pokeData.sprites.front_default,
-        }))
+        map((pokeData: PokemonDetailsResponse) => {
+          const pokeTypeData = this.getPokemonTypes(pokeData.types);
+          return {
+            name: pokeData.name,
+            id: pokeData.id,
+            image: pokeData.sprites.front_default,
+            types: pokeTypeData,
+          };
+        })
       );
     });
+  }
+
+  private getPokemonTypes(typesData: PokemonTypeBasicResponse[]): string[] {
+    const typeNames: string[] = [];
+    typesData.map((typeValue: PokemonTypeBasicResponse) => {
+      typeNames.push(typeValue.type.name);
+    });
+    return typeNames.length === 0 ? [''] : typeNames;
   }
 }

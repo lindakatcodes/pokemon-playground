@@ -1,5 +1,5 @@
 {
-  "name": "ultra-tour-of-heroes",
+  "name": "pokemon-playground",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -28,7 +28,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.1.2",
+    "@angular-devkit/build-angular": "^13.2.6",
     "@angular/cli": "~13.1.2",
     "@angular/compiler-cli": "~13.1.0",
     "@ngrx/schematics": "^13.0.2",
