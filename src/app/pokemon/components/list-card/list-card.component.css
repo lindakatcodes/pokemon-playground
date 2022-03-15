@@ -5,15 +5,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.3s;
+}
+
+.poke-card:hover,
+.poke-card:focus {
+  transform: scale(1.05);
+  border-color: hsl(48 100% 50%);
+  border-width: 4px;
 }
 
 h3 {
   font-size: 1.4rem;
   text-transform: capitalize;
+  margin: 1rem auto 0.5rem;
 }
 
 img {
-  width: 85%;
+  width: 75%;
 }
 
 .type-pills {
@@ -26,7 +35,23 @@ img {
 .pill {
   border: 1px solid dimgray;
   border-radius: 10px;
-  padding: 3% 7%;
+  padding: 2% 6%;
   text-transform: uppercase;
   font-size: 0.9rem;
+  margin: 0.5rem auto;
+}
+
+.details-button {
+  margin: 0.75rem auto;
+  background: blue;
+  color: white;
+  padding: 4% 6%;
+  font-size: 1rem;
+  border: 2px outset hsl(219 81% 21%);
+  border-radius: 5px;
+}
+
+.details-button:active {
+  border: 2px inset blue;
+  background: hsl(219 81% 21%);
 }
