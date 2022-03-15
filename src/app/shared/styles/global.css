@@ -1,0 +1,37 @@
+:root {
+  --black: hsl(0 0% 0%);
+  --white: hsl(0, 0%, 100%);
+  --lightGray: hsl(0 0% 96%);
+  --gray: hsl(0 0% 57%);
+  --darkGray: hsl(0 0% 36%);
+  --red: hsl(11 89% 47%);
+  --orange: hsl(19 85% 56%);
+  --yellow: hsl(46 79% 54%);
+  --green: hsl(129 38% 49%);
+  --lightBlue: hsl(197 68% 52%);
+  --blue: hsl(219 75% 42%);
+  --darkBlue: hsl(219 75% 27%);
+  --purple: hsl(263 51% 57%);
+  --pink: hsl(300, 57%, 55%);
+
+  --normal: var(--white);
+  --fighting: var(--red);
+  --flying: var(--lightBlue);
+  --poison: var(--purple);
+  --ground: var(--orange);
+  --rock: var(--darkGray);
+  --bug: var(--green);
+  --ghost: var(--lightGray);
+  --steel: var(--gray);
+  --fire: var(--red);
+  --water: var(--blue);
+  --grass: var(--green);
+  --electric: var(--yellow);
+  --psychic: var(--darkBlue);
+  --ice: var(--lightBlue);
+  --dragon: var(--yellow);
+  --dark: var(--darkGray);
+  --fairy: var(--pink);
+  --unknown: var(--lightGray);
+  --shadow: var(--gray);
+}

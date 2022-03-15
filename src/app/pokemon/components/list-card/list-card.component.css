@@ -1,5 +1,8 @@
+@import "../../../shared/styles/global.css";
+
 .poke-card {
-  border: 2px solid black;
+  background: var(--lightGray);
+  border: 2px solid var(--black);
   border-radius: 10px;
   width: 225px;
   display: flex;
@@ -11,7 +14,7 @@
 .poke-card:hover,
 .poke-card:focus {
   transform: scale(1.05);
-  border-color: hsl(48 100% 50%);
+  border-color: var(--yellow);
   border-width: 4px;
 }
 
@@ -33,7 +36,7 @@ img {
 }
 
 .pill {
-  border: 1px solid dimgray;
+  border: 1px solid var(--gray);
   border-radius: 10px;
   padding: 2% 6%;
   text-transform: uppercase;
@@ -43,15 +46,15 @@ img {
 
 .details-button {
   margin: 0.75rem auto;
-  background: blue;
-  color: white;
+  background: var(--blue);
+  color: var(--white);
   padding: 4% 6%;
   font-size: 1rem;
-  border: 2px outset hsl(219 81% 21%);
+  border: 2px outset var(--darkBlue);
   border-radius: 5px;
 }
 
 .details-button:active {
-  border: 2px inset blue;
-  background: hsl(219 81% 21%);
+  border: 2px inset var(--blue);
+  background: var(--darkBlue);
 }
