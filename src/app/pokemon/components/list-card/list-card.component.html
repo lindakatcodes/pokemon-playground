@@ -1,0 +1,14 @@
+<div class="poke-card">
+  <h3>{{ pokemon.name }}</h3>
+  <img [src]="pokemon.image" />
+  <div class="type-pills">
+    <p
+      *ngFor="let type of pokemon.types; let i = index"
+      class="pill"
+      [style]="setTypeStyle(type)"
+    >
+      {{ type }}
+    </p>
+  </div>
+  <button class="details-button">View Specs</button>
+</div>

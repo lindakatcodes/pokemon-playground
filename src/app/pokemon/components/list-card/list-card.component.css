@@ -1,0 +1,60 @@
+@import "../../../shared/styles/global.css";
+
+.poke-card {
+  background: var(--lightGray);
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  width: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.poke-card:hover,
+.poke-card:focus {
+  transform: scale(1.05);
+  border-color: var(--yellow);
+  border-width: 4px;
+}
+
+h3 {
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  margin: 1rem auto 0.5rem;
+}
+
+img {
+  width: 75%;
+}
+
+.type-pills {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 1%;
+}
+
+.pill {
+  border: 1px solid var(--gray);
+  border-radius: 10px;
+  padding: 2% 6%;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  margin: 0.5rem auto;
+}
+
+.details-button {
+  margin: 0.75rem auto;
+  background: var(--blue);
+  color: var(--white);
+  padding: 4% 6%;
+  font-size: 1rem;
+  border: 2px outset var(--darkBlue);
+  border-radius: 5px;
+}
+
+.details-button:active {
+  border: 2px inset var(--blue);
+  background: var(--darkBlue);
+}
