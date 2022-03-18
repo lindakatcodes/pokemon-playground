@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   Pokemon,
   PokemonDetails,
@@ -10,22 +18,31 @@ import {
 } from '../models';
 import { PokemonService } from '../pokemon.service';
 import * as PokemonActions from './pokemon.actions';
+import { PokemonState, selectCurrentOffsetValue } from './pokemon.reducer';
 
 @Injectable()
 export class PokemonEffects {
   loadPokemon$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PokemonActions.loadPokemon),
-      concatMap(() =>
-        this.pokemonService.getPokemonList().pipe(
-          map(({ results: pokemonList }) =>
-            PokemonActions.loadPokemonSuccess({ pokemonList })
-          ),
-          catchError((error) =>
-            of(PokemonActions.loadPokemonFailure({ error }))
-          )
-        )
-      )
+      ofType(PokemonActions.loadPokemon, PokemonActions.loadMorePokemon),
+      withLatestFrom(this.store.select(selectCurrentOffsetValue)),
+      concatMap(([action, currentOffsetValue]) => {
+        const updatedOffsetValue =
+          currentOffsetValue + action.currentOffsetValue;
+        return this.pokemonService
+          .getPokemonList(action.currentOffsetValue)
+          .pipe(
+            map(({ results: pokemonList }) =>
+              PokemonActions.loadPokemonSuccess({
+                pokemonList,
+                updatedOffsetValue,
+              })
+            ),
+            catchError((error) =>
+              of(PokemonActions.loadPokemonFailure({ error }))
+            )
+          );
+      })
     );
   });
 
@@ -83,7 +100,8 @@ export class PokemonEffects {
 
   constructor(
     private actions$: Actions,
-    private pokemonService: PokemonService
+    private pokemonService: PokemonService,
+    private store: Store<PokemonState>
   ) {}
 
   private pokemonDetailsObs(
