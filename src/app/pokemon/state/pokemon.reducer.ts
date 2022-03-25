@@ -21,12 +21,13 @@ const feature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(PokemonActions.loadPokemon, (state) => ({
+    on(PokemonActions.loadPokemon, PokemonActions.loadMorePokemon, (state) => ({
       ...state,
       loading: true,
     })),
     on(
       PokemonActions.loadPokemonSuccess,
+      PokemonActions.loadMorePokemonSuccess,
       (state, { pokemonList, updatedOffsetValue }) => ({
         ...state,
         pokemonList,
@@ -40,16 +41,21 @@ const feature = createFeature({
     })),
     on(
       PokemonActions.getPokemonDetailsSuccess,
+      PokemonActions.getMorePokemonDetailsSuccess,
       (state, { pokemonDetails }) => ({
         ...state,
         loading: false,
         pokemonDetailsList: pokemonDetails,
       })
     ),
-    on(PokemonActions.getPokemonDetailsFailure, (state) => ({
-      ...state,
-      loading: false,
-    }))
+    on(
+      PokemonActions.getPokemonDetailsFailure,
+      PokemonActions.getMorePokemonDetailsFailure,
+      (state) => ({
+        ...state,
+        loading: false,
+      })
+    )
   ),
 });
 

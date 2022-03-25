@@ -24,24 +24,22 @@ import { PokemonState, selectCurrentOffsetValue } from './pokemon.reducer';
 export class PokemonEffects {
   loadPokemon$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(PokemonActions.loadPokemon, PokemonActions.loadMorePokemon),
+      ofType(PokemonActions.loadPokemon),
       withLatestFrom(this.store.select(selectCurrentOffsetValue)),
       concatMap(([action, currentOffsetValue]) => {
         const updatedOffsetValue =
           currentOffsetValue + action.currentOffsetValue;
-        return this.pokemonService
-          .getPokemonList(action.currentOffsetValue)
-          .pipe(
-            map(({ results: pokemonList }) =>
-              PokemonActions.loadPokemonSuccess({
-                pokemonList,
-                updatedOffsetValue,
-              })
-            ),
-            catchError((error) =>
-              of(PokemonActions.loadPokemonFailure({ error }))
-            )
-          );
+        return this.pokemonService.getPokemonList(currentOffsetValue).pipe(
+          map(({ results: pokemonList }) =>
+            PokemonActions.loadPokemonSuccess({
+              pokemonList,
+              updatedOffsetValue,
+            })
+          ),
+          catchError((error) =>
+            of(PokemonActions.loadPokemonFailure({ error }))
+          )
+        );
       })
     );
   });
@@ -76,7 +74,7 @@ export class PokemonEffects {
 
         // else call forkJoin
         return forkJoin(...this.pokemonDetailsObs(pokemonList)).pipe(
-          tap(console.log),
+          tap(() => console.log('from getPokemonDetails')),
           map((pokemonList) => {
             const serializedPokemon = JSON.stringify(pokemonList);
             this.cache.set(serializedAction, serializedPokemon);
@@ -90,6 +88,62 @@ export class PokemonEffects {
       }),
       catchError((error) =>
         of(PokemonActions.getPokemonDetailsFailure({ error }))
+      )
+    );
+  });
+
+  loadMorePokemon$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PokemonActions.loadMorePokemon),
+      withLatestFrom(this.store.select(selectCurrentOffsetValue)),
+      concatMap(([action, currentOffsetValue]) => {
+        const updatedOffsetValue =
+          currentOffsetValue + action.currentOffsetValue;
+        return this.pokemonService.getPokemonList(currentOffsetValue).pipe(
+          map(({ results: pokemonList }) =>
+            PokemonActions.loadMorePokemonSuccess({
+              pokemonList,
+              updatedOffsetValue,
+            })
+          ),
+          catchError((error) =>
+            of(PokemonActions.loadPokemonFailure({ error }))
+          )
+        );
+      })
+    );
+  });
+
+  getMorePokemonDetails$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PokemonActions.loadMorePokemonSuccess),
+      mergeMap(({ pokemonList, updatedOffsetValue }) => {
+        // get what currently exists
+        const serializedAction = JSON.stringify(
+          PokemonActions.loadPokemonSuccess.type
+        );
+        const currentSerializedList = localStorage.getItem(serializedAction);
+        const currentList = currentSerializedList
+          ? JSON.parse(currentSerializedList)
+          : [];
+
+        // else call forkJoin
+        return forkJoin(...this.pokemonDetailsObs(pokemonList)).pipe(
+          tap(() => console.log('from getMorePokemonDetails')),
+          map((pokemonList) => {
+            const updatedList = currentList.concat(pokemonList);
+            const serializedPokemon = JSON.stringify(updatedList);
+            this.cache.set(serializedAction, serializedPokemon);
+            localStorage.setItem(serializedAction, serializedPokemon);
+
+            return PokemonActions.getMorePokemonDetailsSuccess({
+              pokemonDetails: updatedList,
+            });
+          })
+        );
+      }),
+      catchError((error) =>
+        of(PokemonActions.getMorePokemonDetailsFailure({ error }))
       )
     );
   });
