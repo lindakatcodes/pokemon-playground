@@ -3,12 +3,12 @@ import { Pokemon, PokemonDetails } from '../models';
 
 export const loadPokemon = createAction(
   '[Pokemon] Load Pokemon',
-  props<{ currentOffsetValue: number }>()
+  props<{ increaseCountBy: number }>()
 );
 
 export const loadPokemonSuccess = createAction(
   '[Pokemon] Load Pokemon Success',
-  props<{ pokemonList: Pokemon[]; updatedOffsetValue: number }>()
+  props<{ pokemonList: Pokemon[]; updatedCount: number }>()
 );
 
 export const loadPokemonFailure = createAction(
@@ -28,12 +28,12 @@ export const getPokemonDetailsFailure = createAction(
 
 export const loadMorePokemon = createAction(
   '[Pokemon] Load More Pokemon',
-  props<{ currentOffsetValue: number }>()
+  props<{ increaseCountBy: number }>()
 );
 
 export const loadMorePokemonSuccess = createAction(
   '[Pokemon] Load More Pokemon Success',
-  props<{ pokemonList: Pokemon[]; updatedOffsetValue: number }>()
+  props<{ pokemonList: Pokemon[]; updatedCount: number }>()
 );
 
 export const loadMorePokemonFailure = createAction(

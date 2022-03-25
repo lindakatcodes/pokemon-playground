@@ -12,11 +12,9 @@ export const selectPokemonListViewModel = createSelector(
   fromPokemon.selectLoading,
   fromPokemon.selectPokemonList,
   fromPokemon.selectPokemonDetailsList,
-  fromPokemon.selectCurrentOffsetValue,
-  (loading, pokemonList, pokemonDetailsList, offsetValue) => ({
+  (loading, pokemonList, pokemonDetailsList) => ({
     loading,
     pokemonList,
     pokemonDetailsList,
-    offsetValue,
   })
 );

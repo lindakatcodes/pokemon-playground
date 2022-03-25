@@ -18,22 +18,21 @@ import {
 } from '../models';
 import { PokemonService } from '../pokemon.service';
 import * as PokemonActions from './pokemon.actions';
-import { PokemonState, selectCurrentOffsetValue } from './pokemon.reducer';
+import { PokemonState, selectCurrentCardCount } from './pokemon.reducer';
 
 @Injectable()
 export class PokemonEffects {
   loadPokemon$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PokemonActions.loadPokemon),
-      withLatestFrom(this.store.select(selectCurrentOffsetValue)),
-      concatMap(([action, currentOffsetValue]) => {
-        const updatedOffsetValue =
-          currentOffsetValue + action.currentOffsetValue;
-        return this.pokemonService.getPokemonList(currentOffsetValue).pipe(
+      withLatestFrom(this.store.select(selectCurrentCardCount)),
+      concatMap(([action, desiredOffset]) => {
+        const updatedCount = desiredOffset + action.increaseCountBy;
+        return this.pokemonService.getPokemonList(desiredOffset).pipe(
           map(({ results: pokemonList }) =>
             PokemonActions.loadPokemonSuccess({
               pokemonList,
-              updatedOffsetValue,
+              updatedCount,
             })
           ),
           catchError((error) =>
@@ -44,26 +43,18 @@ export class PokemonEffects {
     );
   });
 
-  private cache = new Map<string, any>();
-
   getPokemonDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PokemonActions.loadPokemonSuccess),
       mergeMap(({ pokemonList }) => {
-        // serialize the action
-        const serializedAction = JSON.stringify(
-          PokemonActions.loadPokemonSuccess.type
-        );
+        const dbName = 'cachedDetailsList';
 
         // if cache exists return cached value
-        if (
-          this.cache.has(serializedAction) ||
-          !!localStorage.getItem(serializedAction)
-        ) {
-          const pokemonDetailsList =
-            this.cache.get(serializedAction) ||
-            localStorage.getItem(serializedAction);
-          const deserializedPokemonList = JSON.parse(pokemonDetailsList);
+        if (!!localStorage.getItem(dbName)) {
+          const pokemonDetailsList = localStorage.getItem(dbName);
+          const deserializedPokemonList = pokemonDetailsList
+            ? JSON.parse(pokemonDetailsList)
+            : [];
 
           return [
             PokemonActions.getPokemonDetailsSuccess({
@@ -77,8 +68,7 @@ export class PokemonEffects {
           tap(() => console.log('from getPokemonDetails')),
           map((pokemonList) => {
             const serializedPokemon = JSON.stringify(pokemonList);
-            this.cache.set(serializedAction, serializedPokemon);
-            localStorage.setItem(serializedAction, serializedPokemon);
+            localStorage.setItem(dbName, serializedPokemon);
 
             return PokemonActions.getPokemonDetailsSuccess({
               pokemonDetails: pokemonList,
@@ -95,19 +85,18 @@ export class PokemonEffects {
   loadMorePokemon$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PokemonActions.loadMorePokemon),
-      withLatestFrom(this.store.select(selectCurrentOffsetValue)),
-      concatMap(([action, currentOffsetValue]) => {
-        const updatedOffsetValue =
-          currentOffsetValue + action.currentOffsetValue;
-        return this.pokemonService.getPokemonList(currentOffsetValue).pipe(
+      withLatestFrom(this.store.select(selectCurrentCardCount)),
+      concatMap(([action, desiredOffset]) => {
+        const updatedCount = desiredOffset + action.increaseCountBy;
+        return this.pokemonService.getPokemonList(desiredOffset).pipe(
           map(({ results: pokemonList }) =>
             PokemonActions.loadMorePokemonSuccess({
               pokemonList,
-              updatedOffsetValue,
+              updatedCount,
             })
           ),
           catchError((error) =>
-            of(PokemonActions.loadPokemonFailure({ error }))
+            of(PokemonActions.loadMorePokemonFailure({ error }))
           )
         );
       })
@@ -117,12 +106,10 @@ export class PokemonEffects {
   getMorePokemonDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PokemonActions.loadMorePokemonSuccess),
-      mergeMap(({ pokemonList, updatedOffsetValue }) => {
+      mergeMap(({ pokemonList }) => {
         // get what currently exists
-        const serializedAction = JSON.stringify(
-          PokemonActions.loadPokemonSuccess.type
-        );
-        const currentSerializedList = localStorage.getItem(serializedAction);
+        const dbName = 'cachedDetailsList';
+        const currentSerializedList = localStorage.getItem(dbName);
         const currentList = currentSerializedList
           ? JSON.parse(currentSerializedList)
           : [];
@@ -133,8 +120,7 @@ export class PokemonEffects {
           map((pokemonList) => {
             const updatedList = currentList.concat(pokemonList);
             const serializedPokemon = JSON.stringify(updatedList);
-            this.cache.set(serializedAction, serializedPokemon);
-            localStorage.setItem(serializedAction, serializedPokemon);
+            localStorage.setItem(dbName, serializedPokemon);
 
             return PokemonActions.getMorePokemonDetailsSuccess({
               pokemonDetails: updatedList,

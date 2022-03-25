@@ -4,14 +4,14 @@ import * as PokemonActions from './pokemon.actions';
 
 export interface PokemonState {
   loading: boolean;
-  currentOffsetValue: number;
+  currentCardCount: number;
   pokemonList: Pokemon[];
   pokemonDetailsList: PokemonDetails[];
 }
 
 export const initialState: PokemonState = {
   loading: false,
-  currentOffsetValue: 0,
+  currentCardCount: 0,
   pokemonList: [],
   pokemonDetailsList: [],
 };
@@ -28,17 +28,21 @@ const feature = createFeature({
     on(
       PokemonActions.loadPokemonSuccess,
       PokemonActions.loadMorePokemonSuccess,
-      (state, { pokemonList, updatedOffsetValue }) => ({
+      (state, { pokemonList, updatedCount }) => ({
         ...state,
         pokemonList,
         loading: true,
-        currentOffsetValue: updatedOffsetValue,
+        currentCardCount: updatedCount,
       })
     ),
-    on(PokemonActions.loadPokemonFailure, (state) => ({
-      ...state,
-      loading: false,
-    })),
+    on(
+      PokemonActions.loadPokemonFailure,
+      PokemonActions.loadMorePokemonFailure,
+      (state) => ({
+        ...state,
+        loading: false,
+      })
+    ),
     on(
       PokemonActions.getPokemonDetailsSuccess,
       PokemonActions.getMorePokemonDetailsSuccess,
@@ -65,6 +69,6 @@ export const {
   selectLoading,
   selectPokemonList,
   selectPokemonDetailsList,
-  selectCurrentOffsetValue,
+  selectCurrentCardCount,
   selectPokemonState,
 } = feature;

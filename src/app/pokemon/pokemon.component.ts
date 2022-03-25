@@ -16,10 +16,10 @@ export class PokemonComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadPokemon({ currentOffsetValue: 10 }));
+    this.store.dispatch(loadPokemon({ increaseCountBy: 10 }));
   }
 
   loadMore() {
-    this.store.dispatch(loadMorePokemon({ currentOffsetValue: 10 }));
+    this.store.dispatch(loadMorePokemon({ increaseCountBy: 10 }));
   }
 }
