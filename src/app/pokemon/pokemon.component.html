@@ -1,9 +1,8 @@
 <main>
-  <ng-container
-    *ngFor="let pokemon of pokemonDetails$ | async"
-    class="pokemon-list-container"
-  >
-    <pokemon-list-card [pokemon]="pokemon"></pokemon-list-card>
-  </ng-container>
-  <button (click)="loadMore()">Load More</button>
+  <section class="pokemon-list-container">
+    <ng-container *ngFor="let pokemon of pokemonDetails$ | async">
+      <pokemon-list-card [pokemon]="pokemon"></pokemon-list-card>
+    </ng-container>
+  </section>
+  <button class="load-more-button" (click)="loadMore()">Load More</button>
 </main>
