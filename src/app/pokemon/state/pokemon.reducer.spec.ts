@@ -16,9 +16,11 @@ describe('Pokemon Reducer', () => {
       loading: true,
       pokemonList: [{ name: 'bulbasaur', url: '' }],
       pokemonDetailsList: [],
+      currentCardCount: 10,
     };
     const action = loadPokemonSuccess({
       pokemonList: [{ name: 'bulbasaur', url: '' }],
+      updatedCount: 10,
     });
     const state = reducer(initialState, action);
 
@@ -30,6 +32,7 @@ describe('Pokemon Reducer', () => {
       loading: true,
       pokemonList: [{ name: 'bulbasaur', url: '' }],
       pokemonDetailsList: [],
+      currentCardCount: 10,
     };
 
     const newState: PokemonState = {
@@ -38,6 +41,7 @@ describe('Pokemon Reducer', () => {
       pokemonDetailsList: [
         { name: 'bulbasaur', id: 1, image: '', types: [''] },
       ],
+      currentCardCount: 10,
     };
     const action = getPokemonDetailsSuccess({
       pokemonDetails: [{ name: 'bulbasaur', id: 1, image: '', types: [''] }],

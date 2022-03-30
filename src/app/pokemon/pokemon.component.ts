@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadPokemon } from './state/pokemon.actions';
+import { loadMorePokemon, loadPokemon } from './state/pokemon.actions';
 import {
   selectPokemonDetailsList,
   selectPokemonList,
@@ -16,6 +16,10 @@ export class PokemonComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadPokemon());
+    this.store.dispatch(loadPokemon({ increaseCountBy: 10 }));
+  }
+
+  loadMore() {
+    this.store.dispatch(loadMorePokemon({ increaseCountBy: 10 }));
   }
 }

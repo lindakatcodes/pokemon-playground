@@ -1,11 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { Pokemon, PokemonDetails } from '../models';
 
-export const loadPokemon = createAction('[Pokemon] Load Pokemon');
+export const loadPokemon = createAction(
+  '[Pokemon] Load Pokemon',
+  props<{ increaseCountBy: number }>()
+);
 
 export const loadPokemonSuccess = createAction(
   '[Pokemon] Load Pokemon Success',
-  props<{ pokemonList: Pokemon[] }>()
+  props<{ pokemonList: Pokemon[]; updatedCount: number }>()
 );
 
 export const loadPokemonFailure = createAction(
@@ -20,5 +23,30 @@ export const getPokemonDetailsSuccess = createAction(
 
 export const getPokemonDetailsFailure = createAction(
   '[Pokemon] Get Pokemon Details Failure',
+  props<{ error: any }>()
+);
+
+export const loadMorePokemon = createAction(
+  '[Pokemon] Load More Pokemon',
+  props<{ increaseCountBy: number }>()
+);
+
+export const loadMorePokemonSuccess = createAction(
+  '[Pokemon] Load More Pokemon Success',
+  props<{ pokemonList: Pokemon[]; updatedCount: number }>()
+);
+
+export const loadMorePokemonFailure = createAction(
+  '[Pokemon] Load More Pokemon Failure',
+  props<{ error: any }>()
+);
+
+export const getMorePokemonDetailsSuccess = createAction(
+  '[Pokemon] Get More Pokemon Details Success',
+  props<{ pokemonDetails: PokemonDetails[] }>()
+);
+
+export const getMorePokemonDetailsFailure = createAction(
+  '[Pokemon] Get More Pokemon Details Failure',
   props<{ error: any }>()
 );

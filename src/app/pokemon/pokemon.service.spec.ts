@@ -33,7 +33,7 @@ describe('PokemonService', () => {
     httpClientSpy.get.and.returnValue(of(expectedPokemonResponse));
 
     // ASSERT
-    pokemonService.getPokemonList().subscribe({
+    pokemonService.getPokemonList(10).subscribe({
       next: (pokemonRes) => {
         expect(pokemonRes)
           .withContext('expected pokemon response')

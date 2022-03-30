@@ -10,9 +10,9 @@ import { PokemonDetailsResponse, PokemonResponse } from './models';
 export class PokemonService {
   constructor(private http: HttpClient) {}
 
-  getPokemonList(): Observable<PokemonResponse> {
+  getPokemonList(offsetValue: number): Observable<PokemonResponse> {
     return this.http.get<PokemonResponse>(
-      `${environment.api}/pokemon?limit=10`
+      `${environment.api}/pokemon?limit=10&offset=${offsetValue}`
     );
   }
 

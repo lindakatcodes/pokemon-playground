@@ -4,12 +4,14 @@ import * as PokemonActions from './pokemon.actions';
 
 export interface PokemonState {
   loading: boolean;
+  currentCardCount: number;
   pokemonList: Pokemon[];
   pokemonDetailsList: PokemonDetails[];
 }
 
 export const initialState: PokemonState = {
   loading: false,
+  currentCardCount: 0,
   pokemonList: [],
   pokemonDetailsList: [],
 };
@@ -19,31 +21,45 @@ const feature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(PokemonActions.loadPokemon, (state) => ({
+    on(PokemonActions.loadPokemon, PokemonActions.loadMorePokemon, (state) => ({
       ...state,
       loading: true,
-    })),
-    on(PokemonActions.loadPokemonSuccess, (state, { pokemonList }) => ({
-      ...state,
-      pokemonList,
-      loading: true,
-    })),
-    on(PokemonActions.loadPokemonFailure, (state) => ({
-      ...state,
-      loading: false,
     })),
     on(
+      PokemonActions.loadPokemonSuccess,
+      PokemonActions.loadMorePokemonSuccess,
+      (state, { pokemonList, updatedCount }) => ({
+        ...state,
+        pokemonList,
+        loading: true,
+        currentCardCount: updatedCount,
+      })
+    ),
+    on(
+      PokemonActions.loadPokemonFailure,
+      PokemonActions.loadMorePokemonFailure,
+      (state) => ({
+        ...state,
+        loading: false,
+      })
+    ),
+    on(
       PokemonActions.getPokemonDetailsSuccess,
+      PokemonActions.getMorePokemonDetailsSuccess,
       (state, { pokemonDetails }) => ({
         ...state,
         loading: false,
         pokemonDetailsList: pokemonDetails,
       })
     ),
-    on(PokemonActions.getPokemonDetailsFailure, (state) => ({
-      ...state,
-      loading: false,
-    }))
+    on(
+      PokemonActions.getPokemonDetailsFailure,
+      PokemonActions.getMorePokemonDetailsFailure,
+      (state) => ({
+        ...state,
+        loading: false,
+      })
+    )
   ),
 });
 
@@ -53,5 +69,6 @@ export const {
   selectLoading,
   selectPokemonList,
   selectPokemonDetailsList,
+  selectCurrentCardCount,
   selectPokemonState,
 } = feature;
