@@ -20,3 +20,9 @@ main {
   font-weight: bold;
   padding: 2.5%;
 }
+
+.dialogModal {
+  position: absolute;
+  top: 25px;
+  left: 50px;
+}

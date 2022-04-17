@@ -1,0 +1,9 @@
+dialog {
+  width: 600px;
+  height: 800px;
+  visibility: hidden;
+}
+
+.show {
+  visibility: visible;
+}

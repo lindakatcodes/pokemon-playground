@@ -1,4 +1,6 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PokemonDetails } from '../../models';
 
 @Component({
   selector: 'app-details-modal',
@@ -6,5 +8,9 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./details-modal.component.css'],
 })
 export class DetailsModalComponent {
-  constructor() {}
+  pokemon = this.data.selectedPokemon;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { selectedPokemon: PokemonDetails }
+  ) {}
 }
