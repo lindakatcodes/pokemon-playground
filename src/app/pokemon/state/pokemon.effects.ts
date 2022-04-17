@@ -156,6 +156,8 @@ export class PokemonEffects {
             id: pokeData.id,
             image: pokeData.sprites.front_default,
             types: pokeTypeData,
+            abilities: pokeData.abilities,
+            stats: pokeData.stats,
           };
         })
       );
