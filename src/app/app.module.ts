@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Leaving for potential TODO: If I want to use the in memory service as a database, this is what needs to be set here to make that work
 // import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -32,6 +33,7 @@ import { SharedModule } from './shared/shared.module';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

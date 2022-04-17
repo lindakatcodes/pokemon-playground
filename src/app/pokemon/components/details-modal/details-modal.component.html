@@ -1,0 +1,7 @@
+<section>
+  <h2 mat-dialog-title>{{ pokemon.name | titlecase }}</h2>
+  <div mat-dialog-content>
+    {{ pokemon | json }}
+  </div>
+  <button mat-button [mat-dialog-close]="">X</button>
+</section>

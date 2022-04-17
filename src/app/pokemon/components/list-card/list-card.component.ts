@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailsModalComponent } from '../../components/details-modal/details-modal.component';
 import { PokemonDetails } from '../../models';
 
 @Component({
@@ -8,7 +10,8 @@ import { PokemonDetails } from '../../models';
 })
 export class ListCardComponent {
   @Input() pokemon!: PokemonDetails;
-  constructor() {}
+
+  constructor(public dialog: MatDialog) {}
 
   setTypeStyle(type: string): string {
     const background = `var(--${type})`;
@@ -30,5 +33,12 @@ export class ListCardComponent {
         break;
     }
     return `background-color: ${background}; color: ${text}`;
+  }
+  openModal() {
+    this.dialog.open(DetailsModalComponent, {
+      data: {
+        selectedPokemon: this.pokemon,
+      },
+    });
   }
 }

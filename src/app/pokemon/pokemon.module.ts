@@ -7,12 +7,15 @@ import { PokemonRoutingModule } from './pokemon-routing.module';
 import { PokemonComponent } from './pokemon.component';
 import { PokemonEffects } from './state/pokemon.effects';
 import * as fromPokemon from './state/pokemon.reducer';
+import { DetailsModalComponent } from './components/details-modal/details-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [PokemonComponent, ListCardComponent],
+  declarations: [PokemonComponent, ListCardComponent, DetailsModalComponent],
   imports: [
     CommonModule,
     PokemonRoutingModule,
+    MatDialogModule,
     StoreModule.forFeature(fromPokemon.name, fromPokemon.reducer),
     EffectsModule.forFeature([PokemonEffects]),
   ],
