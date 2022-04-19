@@ -1,7 +1,31 @@
 <section>
+  <button [mat-dialog-close]="">X</button>
   <h2 mat-dialog-title>{{ pokemon.name | titlecase }}</h2>
-  <div mat-dialog-content>
-    {{ pokemon | json }}
+  <div mat-dialog-content class="content">
+    <img [src]="pokemon.image" />
+    <div class="stats">
+      <h3>Stats</h3>
+      <div class="stats-group">
+        <ng-container *ngFor="let stat of pokemon.stats">
+          <label [for]="stat.stat.name"
+            >{{ stat.stat.name | uppercase }}:</label
+          >
+          <meter
+            [id]="stat.stat.name"
+            min="0"
+            max="100"
+            [value]="stat.base_stat"
+          ></meter>
+        </ng-container>
+      </div>
+    </div>
+    <div class="abilities">
+      <h3>Abilities</h3>
+      <div class="abilities-group">
+        <p *ngFor="let ability of pokemon.abilities">
+          {{ ability.ability.name }}
+        </p>
+      </div>
+    </div>
   </div>
-  <button mat-button [mat-dialog-close]="">X</button>
 </section>

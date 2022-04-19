@@ -1,0 +1,51 @@
+@import "../../../shared/styles/global.css";
+
+section {
+  background: var(--white);
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  align-self: end;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "img img"
+    "stats abilities";
+}
+
+img {
+  grid-area: img;
+  width: 45%;
+  justify-self: center;
+}
+
+.stats {
+  grid-area: stats;
+}
+
+.abilities {
+  grid-area: abilities;
+}
+
+.stats-group {
+  display: grid;
+}
+
+meter {
+  margin-left: 7px;
+  height: 1.5rem;
+}
+
+meter::-webkit-meter-optimum-value {
+  background: var(--blue);
+}

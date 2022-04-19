@@ -36,6 +36,7 @@ export class ListCardComponent {
   }
   openModal() {
     this.dialog.open(DetailsModalComponent, {
+      width: '600px',
       data: {
         selectedPokemon: this.pokemon,
       },
